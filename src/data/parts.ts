@@ -15,6 +15,30 @@ export const INITIAL_PARTS: Part[] = [
     children: []
   },
   {
+    id: 'HT-11101',
+    partNumber: 'HT-11101',
+    name: 'Rotor Hub',
+    description: 'Connects blades to mast',
+    revision: 'A',
+    state: 'RELEASED',
+    specifications: [
+      { name: 'Material', value: 'Titanium', unit: '' }
+    ],
+    children: []
+  },
+  {
+    id: 'HT-11102',
+    partNumber: 'HT-11102',
+    name: 'Blade Attachment',
+    description: 'Hardware for blade mounting',
+    revision: 'A',
+    state: 'RELEASED',
+    specifications: [
+      { name: 'Material', value: 'Steel', unit: '' }
+    ],
+    children: []
+  },
+  {
     id: 'HT-11200',
     partNumber: 'HT-11200',
     name: 'Tail Rotor Blade',

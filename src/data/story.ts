@@ -174,11 +174,11 @@ export const DIALOGUE: Record<string, DialogueEntry[]> = {
 
   // Act 1 - Mission 1_4
   quantity_rollup: [
-    { characterId: 'tom', text: "Hey, the production numbers don't add up. I can't submit the cost estimate like this." },
-    { characterId: 'rosa', text: "*storms in* Devon changed the quantities again! Why does no one tell me?!" },
-    { characterId: 'margaret', text: "Rosa, calm down. Let's figure this out together." },
-    { characterId: 'rosa', text: "Every 'small fix' Devon makes costs us two weeks in production." },
-    { characterId: 'tom', text: "We need accurate numbers. That's where quantity rollup comes in." }
+    { characterId: 'margaret', text: "Now that we have our Bill of Materials, we need to understand the quantities." },
+    { characterId: 'margaret', text: "Each parent part can have multiple child parts, and we need to calculate the total quantity needed." },
+    { characterId: 'you', text: "So if I have 2 Main Rotor Blades and each needs 4 attachments, that's 8 attachments total?" },
+    { characterId: 'margaret', text: "Exactly! That's called quantity rollup. Let's calculate it for our BOM." },
+    { characterId: 'tom', text: "This will help me with the production planning and cost estimates." }
   ],
 
   // Act 1 - Mission 1_5
