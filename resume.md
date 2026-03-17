@@ -34,6 +34,13 @@ March 17, 2026
   3. Restructured DialogueBox.tsx to call all hooks before any conditional returns
   4. Added dialogueShown state to prevent dialogue from restarting after completion
 
+### Issue: Act 1 Mission Flow Inconsistencies (FIXED)
+- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content
+- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched
+- **Fix**: 
+  1. Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade
+  2. Updated dialogue for Mission 1_4 to be more appropriate for learning about quantity rollup
+
 ### Issue: E2E Tests Not Running
 - Playwright has Chromium/X11 issues in this environment
 - Tests exist in `tests/e2e/story.spec.ts` but fail to run properly
@@ -47,7 +54,12 @@ March 17, 2026
     - **Dialogue restart**: Added `dialogueShown` state to prevent dialogue from restarting after completion
     - This ensures dialogue is set correctly without race conditions and follows React's Rules of Hooks
 
-2. **E2E test setup** (Still needs work)
+2. **Act 1 Mission Flow Issues**
+    - **Inappropriate child parts**: Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade in Mission 1_3
+    - **Mismatched dialogue**: Updated dialogue for Mission 1_4 (quantity_rollup) to be more appropriate for learning about quantity rollup
+    - This ensures missions make logical sense in the flow
+
+3. **E2E test setup** (Still needs work)
    - Install proper Playwright browsers
    - Fix Chromium/headless issues
 
@@ -58,6 +70,8 @@ March 17, 2026
 - `src/hooks/useMission.ts` - Fixed storyProgress selector and added dialogueShown state
 - `src/components/story/DialogueBox.tsx` - Restructured to fix React hooks order issue
 - `src/store/gameStore.ts` - Story state
+- `src/data/parts.ts` - Added Rotor Hub and Blade Attachment parts
+- `src/data/story.ts` - Updated Mission 1_4 dialogue
 
 ## To Test
 ```bash
