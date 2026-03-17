@@ -18,7 +18,10 @@ describe('gameStore', () => {
       changeRequests: [],
       changeOrders: [],
       configurations: { engine: '', color: '', avionics: '' },
-      configurationRules: []
+      configurationRules: [],
+      storyProgress: { currentDialogue: null, dialogueIndex: 0, seenDialogues: [], currentAchievement: null },
+      unlockedAchievements: [],
+      showAchievement: null
     })
   })
 
@@ -314,5 +317,79 @@ describe('gameStore', () => {
     const state = useGameStore.getState()
     expect(state.totalScore).toBe(0)
     expect(state.completedMissions).toHaveLength(0)
+  })
+
+  describe('story system', () => {
+    it('should set current dialogue', () => {
+      const { result } = renderHook(() => useGameStore())
+      
+      act(() => {
+        result.current.setCurrentDialogue('margaret_intro')
+      })
+      
+      expect(useGameStore.getState().storyProgress.currentDialogue).toBe('margaret_intro')
+      expect(useGameStore.getState().storyProgress.dialogueIndex).toBe(0)
+    })
+
+    it('should advance dialogue', () => {
+      useGameStore.setState({ 
+        storyProgress: { currentDialogue: 'margaret_intro', dialogueIndex: 0, seenDialogues: [], currentAchievement: null }
+      })
+      const { result } = renderHook(() => useGameStore())
+      
+      act(() => {
+        result.current.advanceDialogue()
+      })
+      
+      expect(useGameStore.getState().storyProgress.dialogueIndex).toBe(1)
+    })
+
+    it('should clear dialogue', () => {
+      useGameStore.setState({ 
+        storyProgress: { currentDialogue: 'margaret_intro', dialogueIndex: 2, seenDialogues: [], currentAchievement: null }
+      })
+      const { result } = renderHook(() => useGameStore())
+      
+      act(() => {
+        result.current.clearDialogue()
+      })
+      
+      expect(useGameStore.getState().storyProgress.currentDialogue).toBeNull()
+      expect(useGameStore.getState().storyProgress.dialogueIndex).toBe(0)
+    })
+
+    it('should unlock achievement', () => {
+      const { result } = renderHook(() => useGameStore())
+      
+      act(() => {
+        result.current.unlockAchievement('first_part')
+      })
+      
+      expect(useGameStore.getState().unlockedAchievements).toContain('first_part')
+      expect(useGameStore.getState().showAchievement).toBe('first_part')
+    })
+
+    it('should not unlock same achievement twice', () => {
+      useGameStore.setState({ unlockedAchievements: ['first_part'] })
+      const { result } = renderHook(() => useGameStore())
+      
+      act(() => {
+        result.current.unlockAchievement('first_part')
+      })
+      
+      expect(useGameStore.getState().unlockedAchievements).toHaveLength(1)
+      expect(useGameStore.getState().showAchievement).toBeNull()
+    })
+
+    it('should clear show achievement', () => {
+      useGameStore.setState({ showAchievement: 'first_part' })
+      const { result } = renderHook(() => useGameStore())
+      
+      act(() => {
+        result.current.clearShowAchievement()
+      })
+      
+      expect(useGameStore.getState().showAchievement).toBeNull()
+    })
   })
 })
