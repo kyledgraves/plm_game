@@ -192,4 +192,127 @@ describe('gameStore', () => {
     
     expect(useGameStore.getState().parts['HT-99999'].name).toBe('Updated')
   })
+
+  it('should add child to part', () => {
+    useGameStore.setState({
+      parts: { 'HT-99999': { id: 'HT-99999', partNumber: 'HT-99999', name: 'Parent', description: '', revision: 'A', state: 'RELEASED', specifications: [], children: [] } }
+    })
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.addChildToPart('HT-99999', { id: 'child1', partNumber: 'HT-99999-child', name: 'Child', description: '', revision: 'A', state: 'WIP', specifications: [], children: [] })
+    })
+    
+    const state = useGameStore.getState()
+    expect(state.parts['HT-99999'].children).toHaveLength(1)
+  })
+
+  it('should create product structure', () => {
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.createProductStructure({ id: 'ps1', name: 'Helicopter', parts: [] })
+    })
+    
+    expect(useGameStore.getState().productStructures['ps1']).toBeDefined()
+  })
+
+  it('should update product structure', () => {
+    useGameStore.setState({ productStructures: { ps1: { id: 'ps1', name: 'Old', parts: [] } } })
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.updateProductStructure('ps1', { name: 'New' })
+    })
+    
+    expect(useGameStore.getState().productStructures['ps1'].name).toBe('New')
+  })
+
+  it('should create change request', () => {
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.createChangeRequest({ id: 'cr1', title: 'Test', description: '', status: 'pending', priority: 'high', requestedBy: '', requestedAt: '', affectedParts: [], affectedProducts: [] })
+    })
+    
+    expect(useGameStore.getState().changeRequests).toHaveLength(1)
+  })
+
+  it('should update change request', () => {
+    useGameStore.setState({ changeRequests: [{ id: 'cr1', title: 'Test', description: '', status: 'pending', priority: 'high', requestedBy: '', requestedAt: '', affectedParts: [], affectedProducts: [] }] })
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.updateChangeRequest('cr1', { status: 'approved' })
+    })
+    
+    expect(useGameStore.getState().changeRequests[0].status).toBe('approved')
+  })
+
+  it('should create change order', () => {
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.createChangeOrder({ id: 'co1', title: 'Test', description: '', status: 'pending', priority: 'high', requestedBy: '', requestedAt: '', implementationDate: '', affectedParts: [] })
+    })
+    
+    expect(useGameStore.getState().changeOrders).toHaveLength(1)
+  })
+
+  it('should update change order', () => {
+    useGameStore.setState({ changeOrders: [{ id: 'co1', title: 'Test', description: '', status: 'pending', priority: 'high', requestedBy: '', requestedAt: '', implementationDate: '', affectedParts: [] }] })
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.updateChangeOrder('co1', { status: 'implemented' })
+    })
+    
+    expect(useGameStore.getState().changeOrders[0].status).toBe('implemented')
+  })
+
+  it('should set configuration', () => {
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.setConfiguration({ engine: 'v8', color: 'red', avionics: 'advanced' })
+    })
+    
+    const state = useGameStore.getState()
+    expect(state.configurations.engine).toBe('v8')
+    expect(state.configurations.color).toBe('red')
+  })
+
+  it('should add configuration rule', () => {
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.addConfigurationRule({ id: 'rule1', name: 'Test', condition: 'engine=v8', valid: false })
+    })
+    
+    expect(useGameStore.getState().configurationRules).toHaveLength(1)
+  })
+
+  it('should update configuration rule', () => {
+    useGameStore.setState({ configurationRules: [{ id: 'rule1', name: 'Test', condition: 'engine=v8', valid: false }] })
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.updateConfigurationRule('rule1', true)
+    })
+    
+    expect(useGameStore.getState().configurationRules[0].valid).toBe(true)
+  })
+
+  it('should reset progress', () => {
+    useGameStore.setState({ totalScore: 1000, completedMissions: ['1_1', '1_2'] })
+    const { result } = renderHook(() => useGameStore())
+    
+    act(() => {
+      result.current.resetProgress()
+    })
+    
+    const state = useGameStore.getState()
+    expect(state.totalScore).toBe(0)
+    expect(state.completedMissions).toHaveLength(0)
+  })
 })
