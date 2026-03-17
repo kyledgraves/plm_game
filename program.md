@@ -2,6 +2,23 @@
 
 You are an AI agent tasked with autonomously improving test coverage for a React/Vite application.
 
+## ⚠️ IMPORTANT: Git Safety
+
+Before running ANY experiments, you MUST commit all source files to git:
+
+```bash
+# Check for uncommitted files
+git status
+
+# If there are uncommitted changes:
+git add -A
+git commit -m "Add source files"
+```
+
+**Never run experiments with uncommitted source files!** If you do, a git reset will delete them forever.
+
+The harness will check for this and refuse to run if files are missing.
+
 ## Your Goal
 
 **Increase the combined test score by improving coverage and/or browser test pass rate.**

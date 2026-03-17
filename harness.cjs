@@ -30,6 +30,52 @@ function log(msg) {
   console.log(`[${new Date().toISOString()}] ${msg}`);
 }
 
+function checkRequiredFiles() {
+  const requiredFiles = [
+    'package.json',
+    'src/store/gameStore.ts',
+    'src/data/parts.ts',
+    'src/data/missions.ts',
+  ];
+  
+  const missing = [];
+  for (const file of requiredFiles) {
+    const fullPath = path.join(PROJECT_ROOT, file);
+    if (!fs.existsSync(fullPath)) {
+      missing.push(file);
+    }
+  }
+  
+  if (missing.length > 0) {
+    console.error('\n❌ Missing required files:');
+    for (const file of missing) {
+      console.error(`   - ${file}`);
+    }
+    console.error('\n⚠️  Please commit all source files to git before running:');
+    console.error('   git add -A');
+    console.error('   git commit -m "Add source files"\n');
+    return false;
+  }
+  
+  // Check for uncommitted changes (source files should always be committed)
+  try {
+    const status = execSync('git status --porcelain', { cwd: PROJECT_ROOT, encoding: 'utf-8' });
+    const untracked = status.match(/^\?\?/gm);
+    if (untracked && untracked.length > 0) {
+      console.error('\n❌ ERROR: You have uncommitted source files!');
+      console.error('Source files must be committed before running experiments.');
+      console.error('Run: git add -A && git commit -m "Add source files"');
+      console.error('\n⚠️  WARNING: If you run experiments without committing,');
+      console.error('   a git reset will delete your files forever!\n');
+      return false;
+    }
+  } catch (e) {
+    // Not a git repo - that's ok for local dev
+  }
+  
+  return true;
+}
+
 function isPortOpen(port) {
   const net = require('net');
   return new Promise((resolve) => {
@@ -281,6 +327,11 @@ async function runExperiment(description = 'autonomous test generation') {
 
 async function main() {
   initResultsFile();
+  
+  // Check for required files before running
+  if (!checkRequiredFiles()) {
+    process.exit(1);
+  }
   
   const args = process.argv.slice(2);
   const testType = args.includes('--both') ? 'both' : 
