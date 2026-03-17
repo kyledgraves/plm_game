@@ -11,6 +11,9 @@ export default function DialogueBox() {
   const [isTyping, setIsTyping] = useState(false)
   const [showContinue, setShowContinue] = useState(false)
   
+  // Debug: show current dialogue state
+  // console.log('DialogueBox state:', storyProgress.currentDialogue, storyProgress.dialogueIndex)
+  
   if (!storyProgress.currentDialogue) {
     return null
   }

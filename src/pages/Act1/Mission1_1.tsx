@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useMission } from '../../hooks/useMission'
+import { useGameStore } from '../../store/gameStore'
 
 export default function Mission1_1() {
   const { createPart, validatePartNumber, setObjectives, handleComplete } = useMission({
@@ -9,6 +10,16 @@ export default function Mission1_1() {
     dialogue: 'margaret_intro',
     achievement: 'first_part'
   })
+  
+  const setCurrentDialogue = useGameStore(state => state.setCurrentDialogue)
+  const storyProgress = useGameStore(state => state.storyProgress)
+  
+  // Ensure dialogue shows on mount
+  useEffect(() => {
+    if (!storyProgress.currentDialogue) {
+      setCurrentDialogue('margaret_intro')
+    }
+  }, [])
 
   const [partNumber, setPartNumber] = useState('')
   const [name, setName] = useState('')
