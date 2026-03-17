@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { Part, ProductStructure, ChangeRequest, ChangeOrder, Badge } from '../utils/types'
+import type { Part, ProductStructure, ChangeRequest, ChangeOrder, Badge, StoryProgress } from '../utils/types'
 import { INITIAL_PARTS } from '../data/parts'
 
 const initialParts = INITIAL_PARTS.reduce((acc, part) => {
@@ -45,6 +45,10 @@ interface GameState {
   configurations: HelicopterConfiguration
   configurationRules: Array<{ id: string; name: string; condition: string; valid: boolean }>
   
+  storyProgress: StoryProgress
+  unlockedAchievements: string[]
+  showAchievement: string | null
+  
   setPlayerName: (name: string) => void
   setCurrentMission: (act: number, mission: number) => void
   addScore: (points: number) => void
@@ -66,6 +70,11 @@ interface GameState {
   setConfiguration: (config: HelicopterConfiguration) => void
   addConfigurationRule: (rule: { id: string; name: string; condition: string; valid: boolean }) => void
   updateConfigurationRule: (id: string, valid: boolean) => void
+  setCurrentDialogue: (dialogueKey: string) => void
+  advanceDialogue: () => void
+  clearDialogue: () => void
+  unlockAchievement: (achievementId: string) => void
+  clearShowAchievement: () => void
   resetProgress: () => void
 }
 
@@ -86,6 +95,9 @@ const initialState = {
   changeOrders: [] as ChangeOrder[],
   configurations: { engine: '', color: '', avionics: '' } as HelicopterConfiguration,
   configurationRules: [] as Array<{ id: string; name: string; condition: string; valid: boolean }>,
+  storyProgress: { currentDialogue: null, dialogueIndex: 0, seenDialogues: [], currentAchievement: null } as StoryProgress,
+  unlockedAchievements: [] as string[],
+  showAchievement: null as string | null,
 }
 
 export const useGameStore = create<GameState>()(
@@ -207,6 +219,41 @@ export const useGameStore = create<GameState>()(
           r.id === id ? { ...r, valid } : r
         )
       })),
+      
+      setCurrentDialogue: (dialogueKey) => set((state) => ({
+        storyProgress: {
+          ...state.storyProgress,
+          currentDialogue: dialogueKey,
+          dialogueIndex: 0
+        }
+      })),
+      
+      advanceDialogue: () => set((state) => ({
+        storyProgress: {
+          ...state.storyProgress,
+          dialogueIndex: state.storyProgress.dialogueIndex + 1
+        }
+      })),
+      
+      clearDialogue: () => set((state) => ({
+        storyProgress: {
+          ...state.storyProgress,
+          currentDialogue: null,
+          dialogueIndex: 0
+        }
+      })),
+      
+      unlockAchievement: (achievementId) => set((state) => {
+        const alreadyUnlocked = state.unlockedAchievements.includes(achievementId)
+        return {
+          unlockedAchievements: alreadyUnlocked 
+            ? state.unlockedAchievements 
+            : [...state.unlockedAchievements, achievementId],
+          showAchievement: alreadyUnlocked ? null : achievementId
+        }
+      }),
+      
+      clearShowAchievement: () => set({ showAchievement: null }),
       
       resetProgress: () => set(initialState),
     }))

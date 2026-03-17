@@ -22,10 +22,15 @@ plm_game/
 │   ├── components/          # Reusable UI components
 │   │   ├── error/          # ErrorBoundary
 │   │   ├── layout/         # Layout, Header, Sidebar
+│   │   ├── story/          # Story components
+│   │   │   ├── CharacterPanel.tsx
+│   │   │   ├── DialogueBox.tsx
+│   │   │   └── AchievementToast.tsx
 │   │   └── ui/             # LoadingSpinner, etc.
 │   ├── data/               # Static data
 │   │   ├── missions.ts     # Mission definitions (20 missions)
-│   │   └── parts.ts        # Initial parts data
+│   │   ├── parts.ts        # Initial parts data
+│   │   └── story.ts        # Story characters, dialogue, achievements
 │   ├── hooks/              # Custom React hooks
 │   │   └── useMission.ts   # Mission completion logic
 │   ├── pages/              # Page components
@@ -60,6 +65,8 @@ plm_game/
 The Zustand store (`src/store/gameStore.ts`) manages:
 
 - **Player Progress**: name, current act/mission, score, completed missions, badges
+- **Story Progress**: current dialogue, character moments, story flags
+- **Achievements**: unlocked achievements, unlock timestamps
 - **Game Settings**: mode (normal/timeAttack/scoreAttack), save slots
 - **PLM Data**: parts, product structures, change requests, change orders
 - **Configuration**: helicopter configuration options, rules
@@ -70,9 +77,38 @@ State is persisted to localStorage.
 
 Each mission is a React page component that:
 1. Uses `useMission` hook for completion logic
-2. Implements interactive PLM workflows
-3. Updates store state
-4. Navigates to next mission on completion
+2. Can include character dialogue via the `dialogue` prop
+3. Can trigger achievements via the `achievement` prop
+4. Implements interactive PLM workflows
+5. Updates store state
+6. Navigates to next mission on completion
+
+## Story System
+
+The game includes a narrative system called "SkyForge Rising":
+
+### Data Files
+- `src/data/story.ts` - Contains:
+  - Character definitions (emoji, name, role, color)
+  - Dialogue indexed by mission ID
+  - Achievement definitions
+
+### Components
+- `CharacterPanel.tsx` - Displays current speaking character
+- `DialogueBox.tsx` - Shows dialogue with typewriter animation
+- `AchievementToast.tsx` - Popup when achievements unlock
+
+### Integration
+Story elements are passed through the `useMission` hook:
+```typescript
+const { handleComplete } = useMission({
+  missionId: '1_1',
+  nextMissionId: '1_2',
+  score: 100,
+  dialogue: 'margaret_intro',  // optional dialogue key
+  achievement: 'first_part'     // optional achievement key
+})
+```
 
 ## Testing
 

@@ -6,7 +6,9 @@ export default function Mission1_2() {
   const { setObjectives, handleComplete } = useMission({
     missionId: '1_2',
     nextMissionId: '1_3',
-    score: 100
+    score: 100,
+    dialogue: 'devon_specs',
+    achievement: 'specification_master'
   })
 
   const parts = useGameStore(state => state.parts)

@@ -9,6 +9,8 @@ interface UseMissionOptions {
   nextMissionId?: string
   score?: number
   badge?: Omit<Badge, 'earnedAt'>
+  dialogue?: string
+  achievement?: string
 }
 
 interface UseMissionReturn {
@@ -22,9 +24,9 @@ interface UseMissionReturn {
   validatePartNumber: (pn: string) => boolean
 }
 
-export function useMission({ missionId, nextMissionId, score: baseScore = 100, badge }: UseMissionOptions): UseMissionReturn {
+export function useMission({ missionId, nextMissionId, score: baseScore = 100, badge, dialogue, achievement }: UseMissionOptions): UseMissionReturn {
   const navigate = useNavigate()
-  const { addScore, completeMission, earnBadge, createPart: storeCreatePart } = useGameStore()
+  const { addScore, completeMission, earnBadge, createPart: storeCreatePart, setCurrentDialogue, unlockAchievement } = useGameStore()
   const [isComplete, setIsComplete] = useState(false)
   const [score, setScore] = useState(0)
   const [objectives, setObjectives] = useState<Record<string, boolean>>({})
@@ -57,12 +59,18 @@ export function useMission({ missionId, nextMissionId, score: baseScore = 100, b
       earnBadge({ ...badge, earnedAt: new Date().toISOString() })
     }
     
+    if (achievement) {
+      unlockAchievement(achievement)
+    }
+    
     setIsComplete(true)
     
-    if (nextMissionId) {
+    if (dialogue) {
+      setCurrentDialogue(dialogue)
+    } else if (nextMissionId) {
       navigate(`/mission/${nextMissionId}`)
     }
-  }, [addScore, completeMission, earnBadge, missionId, nextMissionId, objectives, baseScore, badge, navigate])
+  }, [addScore, completeMission, earnBadge, missionId, nextMissionId, objectives, baseScore, badge, dialogue, achievement, navigate, setCurrentDialogue, unlockAchievement])
 
   return {
     isComplete,

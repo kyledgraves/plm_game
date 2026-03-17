@@ -5,7 +5,9 @@ export default function Mission1_1() {
   const { createPart, validatePartNumber, setObjectives, handleComplete } = useMission({
     missionId: '1_1',
     nextMissionId: '1_2',
-    score: 100
+    score: 100,
+    dialogue: 'margaret_intro',
+    achievement: 'first_part'
   })
 
   const [partNumber, setPartNumber] = useState('')

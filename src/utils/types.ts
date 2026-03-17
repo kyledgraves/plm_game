@@ -49,3 +49,23 @@ export interface Badge {
   icon: string
   earnedAt?: string
 }
+
+export interface StoryProgress {
+  currentDialogue: string | null
+  dialogueIndex: number
+  seenDialogues: string[]
+  currentAchievement: string | null
+}
+
+export interface Character {
+  id: string
+  name: string
+  emoji: string
+  role: string
+  color: string
+}
+
+export interface DialogueEntry {
+  characterId: string
+  text: string
+}

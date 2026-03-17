@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { Outlet, useParams, useNavigate } from 'react-router-dom'
 import { useGameStore } from '../store/gameStore'
 import { getMission } from '../data/missions'
+import DialogueBox from '../components/story/DialogueBox'
+import AchievementToast from '../components/story/AchievementToast'
 
 export default function Mission() {
   const { id } = useParams()
@@ -51,6 +53,10 @@ export default function Mission() {
         <div className="flex items-center gap-4">
           <span className="text-ds-success font-medium">{totalScore} pts</span>
         </div>
+      </div>
+      <div className="max-w-4xl mx-auto mt-4 px-4">
+        <DialogueBox />
+        <AchievementToast />
       </div>
       <Outlet />
     </div>

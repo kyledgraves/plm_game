@@ -1,14 +1,55 @@
 # Roadmap
 
-## Current Status (v1.0)
+## Current Status (v1.1 - Story Integration)
 
-The game has a functional core with:
-- 20 missions across 4 Acts
+The game has:
+- 20 missions across 4 Acts (expanding to 7)
+- Story mode: "SkyForge Rising" with characters and narrative
 - Part creation and management
 - Bill of Materials (BOM) building
 - Change management workflow
 - Configuration management
 - Progress tracking and scoring
+
+---
+
+# Story System: SkyForge Rising
+
+## Premise
+
+**SkyForge Aerospace** - A mid-size aerospace company fighting for a $500M helicopter contract against rival **Vance Aerospace**. The player is a newly promoted **PLM Coordinator** trying to prove themselves.
+
+## Characters
+
+| Character | Emoji | Role | Color |
+|-----------|-------|------|-------|
+| You | 🙂 | PLM Coordinator | indigo |
+| Margaret Chen | 👩‍💼 | PLM Manager | blue |
+| Devon Williams | 👨‍🔧 | Senior Design Engineer | orange |
+| Rosa Martinez | 🏭 | Production Manager | red |
+| Tom Bradley | 📊 | ERP Lead | purple |
+| Alex Kim | 🔍 | Quality Engineer | green |
+| Jordan Reeves | 🤝 | HeliCare Rep | teal |
+
+## Story Acts
+
+### Act 1: Foundation (5 missions)
+- Learn the basics, prove yourself
+- Margaret mentors, Devon resists, Alex observes
+
+### Act 2: Collaboration (4 missions)
+- Get the team working together
+- Jordan (customer) visits
+
+### Act 3: Crisis (6 missions)
+- Competitor threat emerges
+- Fix a critical failure through change management
+
+### Act 4: Configuration (5 missions)
+- Win the contract with helicopter configuration
+
+### Act 5-7: MES/ERP/Digital Thread (future)
+- Manufacturing operations, business integration, digital thread
 
 ---
 
@@ -165,9 +206,39 @@ Add to `gameStore.ts`:
 
 ## Priority for Implementation
 
-1. **Act 5 (MES)** - Most aligned with existing gameplay
-2. **Act 6 (ERP)** - Adds business layer complexity
-3. **Act 7 (Digital Thread)** - Advanced integration concepts
+1. **Story System (Phase 1)** - Character dialogue, achievements, narrative flow
+2. **Act 5 (MES)** - Most aligned with existing gameplay
+3. **Act 6 (ERP)** - Adds business layer complexity
+4. **Act 7 (Digital Thread)** - Advanced integration concepts
+
+---
+
+# Story Implementation
+
+## Implementation Plan
+
+### Phase 1: Data Layer
+- `src/data/story.ts` - Characters, dialogue, achievements
+- `src/utils/types.ts` - Story types
+- `src/store/gameStore.ts` - Story state
+
+### Phase 2: Components
+- `src/components/story/CharacterPanel.tsx` - Character display
+- `src/components/story/DialogueBox.tsx` - Typewriter dialogue
+- `src/components/story/AchievementToast.tsx` - Achievement popup
+
+### Phase 3: Integration
+- Update `useMission` hook with dialogue/achievement params
+- Update all mission pages with story content
+
+## Current Status
+
+- [x] Planning complete
+- [ ] Phase 1: Data layer
+- [ ] Phase 2: Components  
+- [ ] Phase 3: Act 1 missions
+- [ ] Phase 4: Acts 2-4
+- [ ] Phase 5: Acts 5-7
 
 ---
 

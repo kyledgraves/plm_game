@@ -6,7 +6,9 @@ export default function Mission1_4() {
   const { setObjectives, handleComplete } = useMission({
     missionId: '1_4',
     nextMissionId: '1_5',
-    score: 100
+    score: 100,
+    dialogue: 'quantity_rollup',
+    achievement: 'quantity_roller'
   })
 
   const parts = useGameStore(state => state.parts)
