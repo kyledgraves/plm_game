@@ -11,33 +11,16 @@ export default function DialogueBox() {
   const [isTyping, setIsTyping] = useState(false)
   const [showContinue, setShowContinue] = useState(false)
   
-  // Debug - show what's happening
-  if (!storyProgress.currentDialogue) {
-    return (
-      <div className="bg-yellow-100 border border-yellow-400 p-4 rounded-lg mb-4">
-        <p className="text-yellow-800">No dialogue set. Current progress: {JSON.stringify(storyProgress)}</p>
-      </div>
-    )
-  }
-  
-  const dialogue = getDialogue(storyProgress.currentDialogue)
-  if (!dialogue || dialogue.length === 0) {
-    return null
-  }
-  
+  // Compute derived values
+  const dialogue = storyProgress.currentDialogue ? getDialogue(storyProgress.currentDialogue) : []
   const currentEntry = dialogue[storyProgress.dialogueIndex]
-  if (!currentEntry) {
-    return null
-  }
-  
-  const character = CHARACTERS[currentEntry.characterId]
-  if (!character) {
-    return null
-  }
-  
+  const character = currentEntry ? CHARACTERS[currentEntry.characterId] : null
   const isLastEntry = storyProgress.dialogueIndex >= dialogue.length - 1
   
+  // Call useEffect unconditionally (before any early return)
   useEffect(() => {
+    if (!currentEntry) return
+    
     setDisplayedText('')
     setIsTyping(true)
     setShowContinue(false)
@@ -57,8 +40,9 @@ export default function DialogueBox() {
     }, 30)
     
     return () => clearInterval(typewriter)
-  }, [storyProgress.dialogueIndex, currentEntry.text])
+  }, [storyProgress.dialogueIndex, currentEntry?.text])
   
+  // Compute handlers (these are functions, not hooks)
   const handleContinue = () => {
     if (isLastEntry) {
       clearDialogue()
@@ -68,9 +52,11 @@ export default function DialogueBox() {
   }
   
   const handleSkip = () => {
-    setDisplayedText(currentEntry.text)
-    setIsTyping(false)
-    setShowContinue(true)
+    if (currentEntry) {
+      setDisplayedText(currentEntry.text)
+      setIsTyping(false)
+      setShowContinue(true)
+    }
   }
   
   const colorClasses: Record<string, string> = {
@@ -81,6 +67,11 @@ export default function DialogueBox() {
     purple: 'bg-purple-50 border-purple-300',
     indigo: 'bg-indigo-50 border-indigo-300',
     teal: 'bg-teal-50 border-teal-300',
+  }
+  
+  // Early return if conditions are not met
+  if (!storyProgress.currentDialogue || !dialogue || dialogue.length === 0 || !currentEntry || !character) {
+    return null
   }
   
   return (

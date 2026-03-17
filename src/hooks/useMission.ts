@@ -26,7 +26,8 @@ interface UseMissionReturn {
 
 export function useMission({ missionId, nextMissionId, score: baseScore = 100, badge, dialogue, achievement }: UseMissionOptions): UseMissionReturn {
   const navigate = useNavigate()
-  const { addScore, completeMission, earnBadge, createPart: storeCreatePart, setCurrentDialogue, unlockAchievement, storyProgress } = useGameStore()
+  const { addScore, completeMission, earnBadge, createPart: storeCreatePart, setCurrentDialogue, unlockAchievement } = useGameStore()
+  const storyProgress = useGameStore(state => state.storyProgress)
   const [isComplete, setIsComplete] = useState(false)
   const [score, setScore] = useState(0)
   const [objectives, setObjectives] = useState<Record<string, boolean>>({})
