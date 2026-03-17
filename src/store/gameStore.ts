@@ -56,7 +56,7 @@ interface GameState {
   endMissionTimer: (missionId: string) => number
   createPart: (part: Part) => void
   updatePart: (id: string, updates: Partial<Part>) => void
-  addChildToPart: (parentId: string, child: Part) => void
+  addChildToPart: (parentId: string, child: { partId: string; quantity: number }) => void
   createProductStructure: (structure: ProductStructure) => void
   updateProductStructure: (id: string, updates: Partial<ProductStructure>) => void
   createChangeRequest: (cr: ChangeRequest) => void
@@ -151,7 +151,7 @@ export const useGameStore = create<GameState>()(
         }
       })),
       
-      addChildToPart: (parentId, child) => set((state) => {
+      addChildToPart: (parentId, child: { partId: string; quantity: number }) => set((state) => {
         const parent = state.parts[parentId]
         if (!parent) return state
         return {
@@ -209,9 +209,4 @@ export const useGameStore = create<GameState>()(
       })),
       
       resetProgress: () => set(initialState),
-    }),
-    {
-      name: 'plm-factory-storage',
-    }
-  }
-)
+    }))

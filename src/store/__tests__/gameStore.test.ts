@@ -200,7 +200,7 @@ describe('gameStore', () => {
     const { result } = renderHook(() => useGameStore())
     
     act(() => {
-      result.current.addChildToPart('HT-99999', { id: 'child1', partNumber: 'HT-99999-child', name: 'Child', description: '', revision: 'A', state: 'WIP', specifications: [], children: [] })
+      result.current.addChildToPart('HT-99999', { partId: 'child1', quantity: 1 })
     })
     
     const state = useGameStore.getState()

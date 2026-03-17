@@ -6,8 +6,10 @@ export interface Part {
   revision: string
   state: string
   specifications: Array<{ name: string; value: string; unit: string }>
-  children: Part[]
+  children: Array<{ partId: string; quantity: number }>
   unit?: string
+  material?: string
+  weight?: number
 }
 
 export interface ProductStructure {
