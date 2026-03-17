@@ -1,0 +1,7 @@
+source_dir: src
+test_dir: tests
+unit_weight: 0.5
+browser_weight: 0.5
+time_budget_seconds: 180
+server_port: 5173
+server_startup_wait: 5.0
