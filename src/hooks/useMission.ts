@@ -31,13 +31,15 @@ export function useMission({ missionId, nextMissionId, score: baseScore = 100, b
   const [isComplete, setIsComplete] = useState(false)
   const [score, setScore] = useState(0)
   const [objectives, setObjectives] = useState<Record<string, boolean>>({})
+  const [dialogueShown, setDialogueShown] = useState(false)
 
-  // Show dialogue when mission loads
+  // Show dialogue when mission loads (only once)
   useEffect(() => {
-    if (dialogue && !storyProgress.currentDialogue) {
+    if (dialogue && !storyProgress.currentDialogue && !dialogueShown) {
       setCurrentDialogue(dialogue)
+      setDialogueShown(true)
     }
-  }, [dialogue, storyProgress.currentDialogue, setCurrentDialogue])
+  }, [dialogue, storyProgress.currentDialogue, setCurrentDialogue, dialogueShown])
 
   const validatePartNumber = (pn: string) => /^HT-\d{5}$/.test(pn)
 
