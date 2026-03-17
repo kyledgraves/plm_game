@@ -11,11 +11,13 @@ export default function DialogueBox() {
   const [isTyping, setIsTyping] = useState(false)
   const [showContinue, setShowContinue] = useState(false)
   
-  // Debug: show current dialogue state
-  // console.log('DialogueBox state:', storyProgress.currentDialogue, storyProgress.dialogueIndex)
-  
+  // Debug - show what's happening
   if (!storyProgress.currentDialogue) {
-    return null
+    return (
+      <div className="bg-yellow-100 border border-yellow-400 p-4 rounded-lg mb-4">
+        <p className="text-yellow-800">No dialogue set. Current progress: {JSON.stringify(storyProgress)}</p>
+      </div>
+    )
   }
   
   const dialogue = getDialogue(storyProgress.currentDialogue)

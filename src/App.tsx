@@ -6,6 +6,7 @@ import MissionSelect from './pages/MissionSelect'
 import Results from './pages/Results'
 import LoadingSpinner from './components/ui/LoadingSpinner'
 import { ErrorBoundary } from './components/error/ErrorBoundary'
+import Mission from './pages/Mission'
 
 const Mission1_1 = lazy(() => import('./pages/Act1/Mission1_1'))
 const Mission1_2 = lazy(() => import('./pages/Act1/Mission1_2'))
@@ -36,66 +37,29 @@ function App() {
         <Route path="missions" element={<MissionSelect />} />
         <Route path="results" element={<Results />} />
         
-        <Route path="mission/1_1" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission1_1 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/1_2" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission1_2 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/1_3" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission1_3 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/1_4" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission1_4 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/1_5" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission1_5 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/2_1" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission2_1 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/2_2" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission2_2 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/2_3" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission2_3 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/2_4" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission2_4 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/3_1" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission3_1 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/3_2" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission3_2 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/3_3" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission3_3 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/3_4" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission3_4 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/3_5" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission3_5 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/3_6" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission3_6 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/4_1" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission4_1 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/4_2" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission4_2 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/4_3" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission4_3 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/4_4" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission4_4 /></Suspense></ErrorBoundary>
-        } />
-        <Route path="mission/4_5" element={
-          <ErrorBoundary><Suspense fallback={<LoadingSpinner />}><Mission4_5 /></Suspense></ErrorBoundary>
-        } />
+        <Route element={<Mission />}>
+          <Route path="mission/1_1" element={<Suspense fallback={<LoadingSpinner />}><Mission1_1 /></Suspense>} />
+          <Route path="mission/1_2" element={<Suspense fallback={<LoadingSpinner />}><Mission1_2 /></Suspense>} />
+          <Route path="mission/1_3" element={<Suspense fallback={<LoadingSpinner />}><Mission1_3 /></Suspense>} />
+          <Route path="mission/1_4" element={<Suspense fallback={<LoadingSpinner />}><Mission1_4 /></Suspense>} />
+          <Route path="mission/1_5" element={<Suspense fallback={<LoadingSpinner />}><Mission1_5 /></Suspense>} />
+          <Route path="mission/2_1" element={<Suspense fallback={<LoadingSpinner />}><Mission2_1 /></Suspense>} />
+          <Route path="mission/2_2" element={<Suspense fallback={<LoadingSpinner />}><Mission2_2 /></Suspense>} />
+          <Route path="mission/2_3" element={<Suspense fallback={<LoadingSpinner />}><Mission2_3 /></Suspense>} />
+          <Route path="mission/2_4" element={<Suspense fallback={<LoadingSpinner />}><Mission2_4 /></Suspense>} />
+          <Route path="mission/3_1" element={<Suspense fallback={<LoadingSpinner />}><Mission3_1 /></Suspense>} />
+          <Route path="mission/3_2" element={<Suspense fallback={<LoadingSpinner />}><Mission3_2 /></Suspense>} />
+          <Route path="mission/3_3" element={<Suspense fallback={<LoadingSpinner />}><Mission3_3 /></Suspense>} />
+          <Route path="mission/3_4" element={<Suspense fallback={<LoadingSpinner />}><Mission3_4 /></Suspense>} />
+          <Route path="mission/3_5" element={<Suspense fallback={<LoadingSpinner />}><Mission3_5 /></Suspense>} />
+          <Route path="mission/3_6" element={<Suspense fallback={<LoadingSpinner />}><Mission3_6 /></Suspense>} />
+          <Route path="mission/4_1" element={<Suspense fallback={<LoadingSpinner />}><Mission4_1 /></Suspense>} />
+          <Route path="mission/4_2" element={<Suspense fallback={<LoadingSpinner />}><Mission4_2 /></Suspense>} />
+          <Route path="mission/4_3" element={<Suspense fallback={<LoadingSpinner />}><Mission4_3 /></Suspense>} />
+          <Route path="mission/4_4" element={<Suspense fallback={<LoadingSpinner />}><Mission4_4 /></Suspense>} />
+          <Route path="mission/4_5" element={<Suspense fallback={<LoadingSpinner />}><Mission4_5 /></Suspense>} />
+        </Route>
+        
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

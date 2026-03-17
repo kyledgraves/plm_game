@@ -1,26 +1,27 @@
 import { useState, useEffect } from 'react'
-import { Outlet, useParams, useNavigate } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useGameStore } from '../store/gameStore'
 import { getMission } from '../data/missions'
 import DialogueBox from '../components/story/DialogueBox'
 import AchievementToast from '../components/story/AchievementToast'
 
 export default function Mission() {
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const location = useLocation()
   const { currentAct, currentMission, setCurrentMission, totalScore } = useGameStore()
   const [timeLeft, setTimeLeft] = useState(0)
 
-  const mission = id ? getMission(id) : null
+  // Get mission ID from URL path
+  const missionId = location.pathname.split('/').pop() || ''
+  const mission = missionId ? getMission(missionId) : null
 
   useEffect(() => {
     if (mission) {
-      const act = parseInt(id!.split('_')[0])
-      const missionNum = parseInt(id!.split('_')[1])
+      const act = parseInt(missionId.split('_')[0])
+      const missionNum = parseInt(missionId.split('_')[1])
       setCurrentMission(act, missionNum)
       setTimeLeft(mission.timeLimit)
     }
-  }, [id])
+  }, [missionId])
 
   useEffect(() => {
     if (timeLeft <= 0) return
