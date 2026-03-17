@@ -27,10 +27,12 @@ March 17, 2026
 - **Cause**: 
   1. Duplicate dialogue setting in Mission1_1.tsx causing race condition
   2. React hooks order violation in DialogueBox.tsx (hooks called after conditional returns)
+  3. Dialogue restarting after completion due to useMission hook re-triggering
 - **Fix**: 
   1. Removed duplicate useEffect in Mission1_1.tsx
   2. Fixed storyProgress selector in useMission.ts
   3. Restructured DialogueBox.tsx to call all hooks before any conditional returns
+  4. Added dialogueShown state to prevent dialogue from restarting after completion
 
 ### Issue: E2E Tests Not Running
 - Playwright has Chromium/X11 issues in this environment
@@ -39,10 +41,11 @@ March 17, 2026
 ## What Was Fixed
 
 1. **White Screen Issue**
-   - **Duplicate dialogue setting**: Removed duplicate `useEffect` in `src/pages/Act1/Mission1_1.tsx` that was setting dialogue twice
-   - **StoryProgress selector**: Fixed `storyProgress` selector in `src/hooks/useMission.ts` to use proper selector function
-   - **React hooks order**: Restructured `src/components/story/DialogueBox.tsx` to call all hooks before any conditional returns
-   - This ensures dialogue is set correctly without race conditions and follows React's Rules of Hooks
+    - **Duplicate dialogue setting**: Removed duplicate `useEffect` in `src/pages/Act1/Mission1_1.tsx` that was setting dialogue twice
+    - **StoryProgress selector**: Fixed `storyProgress` selector in `src/hooks/useMission.ts` to use proper selector function
+    - **React hooks order**: Restructured `src/components/story/DialogueBox.tsx` to call all hooks before any conditional returns
+    - **Dialogue restart**: Added `dialogueShown` state to prevent dialogue from restarting after completion
+    - This ensures dialogue is set correctly without race conditions and follows React's Rules of Hooks
 
 2. **E2E test setup** (Still needs work)
    - Install proper Playwright browsers
@@ -52,7 +55,7 @@ March 17, 2026
 - `src/App.tsx` - Route restructuring
 - `src/pages/Mission.tsx` - Added DialogueBox
 - `src/pages/Act1/Mission1_1.tsx` - Removed duplicate dialogue setting effect
-- `src/hooks/useMission.ts` - Fixed storyProgress selector
+- `src/hooks/useMission.ts` - Fixed storyProgress selector and added dialogueShown state
 - `src/components/story/DialogueBox.tsx` - Restructured to fix React hooks order issue
 - `src/store/gameStore.ts` - Story state
 
