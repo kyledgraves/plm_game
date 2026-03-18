@@ -7,12 +7,15 @@ import AchievementToast from '../components/story/AchievementToast'
 
 export default function Mission() {
   const location = useLocation()
-  const { currentAct, currentMission, setCurrentMission, totalScore } = useGameStore()
+  const { currentAct, currentMission, setCurrentMission, totalScore, storyProgress } = useGameStore()
   const [timeLeft, setTimeLeft] = useState(0)
 
   // Get mission ID from URL path
   const missionId = location.pathname.split('/').pop() || ''
   const mission = missionId ? getMission(missionId) : null
+  
+  // Check if dialogue is active
+  const hasActiveDialogue = !!storyProgress.currentDialogue
 
   useEffect(() => {
     if (mission) {
@@ -43,7 +46,7 @@ export default function Mission() {
   }
 
   return (
-    <div className="min-h-screen bg-ds-bg">
+    <div className="min-h-screen bg-ds-bg relative">
       <div className="bg-white border-b border-ds-border px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="font-medium">Act {mission?.act}: {mission?.title}</span>
@@ -59,6 +62,9 @@ export default function Mission() {
         <DialogueBox />
         <AchievementToast />
       </div>
+      {hasActiveDialogue && (
+        <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
+      )}
       <Outlet />
     </div>
   )
