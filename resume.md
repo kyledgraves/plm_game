@@ -1,7 +1,10 @@
 # PLM Game - Current Status
 
 ## Last Updated
-March 17, 2026
+March 18, 2026
+
+## Version
+v1.1 - Story Integration Complete
 
 ## What Was Done
 
@@ -90,5 +93,12 @@ npm run dev
 ```
 
 ## Commits
-- Latest: "Fix white screen issue in dialogue system"
-- Previous: "Add E2E test framework and fix story dialogue display"
+- Latest: "Update resume.md with Mission 1_5 improvement documentation"
+- Previous: "Make Mission 1_5 more meaningful by modifying assembly specifications"
+- Previous: "Update Devon's response in Mission 1_2 dialogue"
+- Previous: "Improve dialogue flow in Mission 1_2"
+- Previous: "Reset dialogueShown flag when mission changes"
+- Previous: "Track dialogue shown status in store to prevent repetition"
+- Previous: "Adjust overlay to only block mission content, not dialogue"
+- Previous: "Make Mission 1_4 interactive for quantity rollup calculation"
+- Previous: "Resolve white screen issue in dialogue system"

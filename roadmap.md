@@ -10,6 +10,21 @@ The game has:
 - Change management workflow
 - Configuration management
 - Progress tracking and scoring
+- **Dialogue system with blocking overlay**
+- **Interactive missions (1_4 quantity rollup, 1_5 revision with spec changes)**
+
+### Act 1 Mission Details
+- **1_1**: Create Main Rotor Blade (HT-11000) - with Margaret's introduction dialogue
+- **1_2**: Link specifications to part - with Devon's resistance to computer system
+- **1_3**: Build BOM using Rotor Hub and Blade Attachment
+- **1_4**: Calculate quantity rollup (interactive - player must enter correct total)
+- **1_5**: Create revision and modify assembly specifications (length, material)
+
+### Recent Fixes
+- Fixed white screen issue by removing duplicate dialogue setting and fixing hooks order
+- Fixed dialogue repetition by tracking shown state in store
+- Fixed overlay to only block mission content, not dialogue box
+- Improved Act 1 mission flow and dialogue
 
 ---
 
@@ -234,11 +249,11 @@ Add to `gameStore.ts`:
 ## Current Status
 
 - [x] Planning complete
-- [ ] Phase 1: Data layer
-- [ ] Phase 2: Components  
-- [ ] Phase 3: Act 1 missions
-- [ ] Phase 4: Acts 2-4
-- [ ] Phase 5: Acts 5-7
+- [x] Phase 1: Data layer
+- [x] Phase 2: Components  
+- [x] Phase 3: Act 1 missions
+- [x] Phase 4: Acts 2-4 (dialogue set up, needs content)
+- [ ] Phase 5: Acts 5-7 (future)
 
 ---
 

@@ -65,13 +65,24 @@ plm_game/
 The Zustand store (`src/store/gameStore.ts`) manages:
 
 - **Player Progress**: name, current act/mission, score, completed missions, badges
-- **Story Progress**: current dialogue, character moments, story flags
+- **Story Progress**: 
+  - `currentDialogue`: key of currently active dialogue
+  - `dialogueIndex`: current position in dialogue array
+  - `seenDialogues`: array of dialogue keys that have been viewed
+  - `currentAchievement`: achievement currently being shown
+  - `dialogueShownForCurrentMission`: flag to prevent dialogue repetition
 - **Achievements**: unlocked achievements, unlock timestamps
 - **Game Settings**: mode (normal/timeAttack/scoreAttack), save slots
 - **PLM Data**: parts, product structures, change requests, change orders
 - **Configuration**: helicopter configuration options, rules
 
 State is persisted to localStorage.
+
+### Key Store Functions
+- `setCurrentDialogue(dialogueKey)`: Sets dialogue to display
+- `advanceDialogue()`: Moves to next dialogue entry
+- `clearDialogue()`: Clears current dialogue (sets `currentDialogue: null`, `dialogueIndex: 0`)
+- `setDialogueShownForCurrentMission(shown)`: Controls dialogue repetition prevention
 
 ## Mission Structure
 
@@ -109,6 +120,17 @@ const { handleComplete } = useMission({
   achievement: 'first_part'     // optional achievement key
 })
 ```
+
+### Dialogue Flow & Interaction
+- **Blocking**: When dialogue is active, a semi-transparent overlay blocks interaction with mission content
+- **Dialogue Box**: Remains interactive and visible above the overlay
+- **Repetition Prevention**: `dialogueShownForCurrentMission` flag in store prevents dialogue from restarting
+- **Mission Navigation**: Flag is reset when navigating to a new mission
+
+### Important Rules
+- **Hooks Order**: All hooks must be called before any conditional returns in `DialogueBox`
+- **Selector Pattern**: Use `useGameStore(state => state.storyProgress)` not destructuring
+- **Overlay Placement**: Overlay only covers mission content, not the dialogue box itself
 
 ## Testing
 

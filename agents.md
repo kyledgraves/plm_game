@@ -30,11 +30,12 @@ npm run dev        # Start dev server
 ### Core Files (DO NOT DELETE)
 
 - `src/data/missions.ts` - Mission definitions (20 missions)
-- `src/data/parts.ts` - Initial parts data
+- `src/data/parts.ts` - Initial parts data (Main Rotor Blade, Rotor Hub, Blade Attachment, etc.)
 - `src/store/gameStore.ts` - Zustand state management
-- `src/utils/types.ts` - TypeScript interfaces
+- `src/utils/types.ts` - TypeScript interfaces (including StoryProgress with dialogueShownForCurrentMission)
 - `src/pages/Act*/*.tsx` - All mission page components
-- `src/hooks/useMission.ts` - Mission completion hook
+- `src/hooks/useMission.ts` - Mission completion hook with dialogue tracking
+- `src/data/story.ts` - Story characters, dialogue, and achievements
 
 ### Available Scripts
 
@@ -89,8 +90,35 @@ If tests fail:
 2. Verify `vitest.config.ts` has `globals: true`
 3. Run `npm test` to see actual errors
 
+## Recent Fixes & Best Practices
+
+### Dialogue System
+- **Do not** duplicate dialogue setting logic in mission components
+- Use `useMission` hook's `dialogue` parameter to set dialogue
+- Dialogue tracking is now in the store (`dialogueShownForCurrentMission`) to prevent repetition
+- Dialogue box blocks mission content interaction with semi-transparent overlay
+
+### Mission Flow
+- Act 1 Missions:
+  - 1_1: Create Main Rotor Blade (HT-11000)
+  - 1_2: Link specifications to part
+  - 1_3: Build BOM using Rotor Hub and Blade Attachment
+  - 1_4: Calculate quantity rollup (interactive)
+  - 1_5: Create revision and modify assembly specifications
+
+### Component Structure
+- **DialogueBox**: Must call all hooks before any conditional returns
+- **Mission.tsx**: Wraps all missions with dialogue/achievement components
+- **useMission**: Handles dialogue triggering and completion logic
+
+### React Rules
+- Never call hooks conditionally or after early returns
+- Always use selector functions with Zustand (e.g., `useGameStore(state => state.storyProgress)`)
+- Keep hooks at the top level of components
+
 ## Contact
 
 For questions about this project, refer to:
 - [architecture.md](./architecture.md) - Technical details
 - [roadmap.md](./roadmap.md) - Future plans
+- [resume.md](./resume.md) - Current status and known issues
