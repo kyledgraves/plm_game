@@ -18,14 +18,39 @@ export default function Mission1_5() {
   
   const [newRevision, setNewRevision] = useState('B')
   const [revisionNote, setRevisionNote] = useState('')
+  const [newLength, setNewLength] = useState('')
+  const [newMaterial, setNewMaterial] = useState('')
 
   const revisions = ['A', 'B', 'C', 'D']
 
   const handleSubmit = () => {
     if (!mainPart) return
+    
+    // Update specifications based on user input
+    const updatedSpecs = [...mainPart.specifications]
+    
+    if (newLength) {
+      const lengthIndex = updatedSpecs.findIndex(s => s.name === 'Length')
+      if (lengthIndex >= 0) {
+        updatedSpecs[lengthIndex] = { ...updatedSpecs[lengthIndex], value: newLength }
+      } else {
+        updatedSpecs.push({ name: 'Length', value: newLength, unit: 'm' })
+      }
+    }
+    
+    if (newMaterial) {
+      const materialIndex = updatedSpecs.findIndex(s => s.name === 'Material')
+      if (materialIndex >= 0) {
+        updatedSpecs[materialIndex] = { ...updatedSpecs[materialIndex], value: newMaterial }
+      } else {
+        updatedSpecs.push({ name: 'Material', value: newMaterial, unit: '' })
+      }
+    }
+    
     updatePart(mainPart.id, {
       revision: newRevision,
-      description: `${mainPart.description} (Rev ${newRevision})`
+      description: `${mainPart.description} (Rev ${newRevision})`,
+      specifications: updatedSpecs
     })
     setObjectives({ revisionBasics: true })
     handleComplete()
@@ -58,6 +83,28 @@ export default function Mission1_5() {
                     <option key={r} value={r}>{r}</option>
                   ))}
                 </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Change Length</label>
+                <input
+                  type="text"
+                  value={newLength}
+                  onChange={(e) => setNewLength(e.target.value)}
+                  placeholder={`${mainPart.specifications.find(s => s.name === 'Length')?.value || '2.5m'} (leave empty to keep unchanged)`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Change Material</label>
+                <input
+                  type="text"
+                  value={newMaterial}
+                  onChange={(e) => setNewMaterial(e.target.value)}
+                  placeholder={`${mainPart.specifications.find(s => s.name === 'Material')?.value || 'Carbon Fiber'} (leave empty to keep unchanged)`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
               </div>
 
               <div>
