@@ -35,13 +35,14 @@ March 17, 2026
   4. Added dialogueShown state to prevent dialogue from restarting after completion
 
 ### Issue: Act 1 Mission Flow Inconsistencies (FIXED)
-- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content, Mission 1_4 total quantity was already populated, user could proceed without clicking through dialogue
-- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched, Mission 1_4 was passive display instead of interactive learning, no overlay blocked interaction during dialogue
+- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content, Mission 1_4 total quantity was already populated, user could proceed without clicking through dialogue, dialogue was repeating
+- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched, Mission 1_4 was passive display instead of interactive learning, no overlay blocked interaction during dialogue, local state for tracking dialogue shown was being reset
 - **Fix**: 
   1. Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade
   2. Updated dialogue for Mission 1_4 to be more appropriate for learning about quantity rollup
   3. Made Mission 1_4 interactive - player must calculate and enter the total quantity rollup
   4. Added semi-transparent overlay to block interaction with mission content while dialogue is active (dialogue remains interactive)
+  5. Moved dialogue shown tracking from local state to store to prevent repetition issues
 
 ### Issue: E2E Tests Not Running
 - Playwright has Chromium/X11 issues in this environment
@@ -72,9 +73,10 @@ March 17, 2026
 - `src/pages/Mission.tsx` - Added DialogueBox and overlay to block interaction during dialogue
 - `src/pages/Act1/Mission1_1.tsx` - Removed duplicate dialogue setting effect
 - `src/pages/Act1/Mission1_4.tsx` - Made quantity rollup calculation interactive
-- `src/hooks/useMission.ts` - Fixed storyProgress selector and added dialogueShown state
+- `src/hooks/useMission.ts` - Fixed storyProgress selector and moved dialogueShown to store
 - `src/components/story/DialogueBox.tsx` - Restructured to fix React hooks order issue
-- `src/store/gameStore.ts` - Story state
+- `src/store/gameStore.ts` - Added dialogueShownForCurrentMission flag
+- `src/utils/types.ts` - Added dialogueShownForCurrentMission to StoryProgress
 - `src/data/parts.ts` - Added Rotor Hub and Blade Attachment parts
 - `src/data/story.ts` - Updated Mission 1_4 dialogue
 
