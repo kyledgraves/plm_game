@@ -35,8 +35,8 @@ March 17, 2026
   4. Added dialogueShown state to prevent dialogue from restarting after completion
 
 ### Issue: Act 1 Mission Flow Inconsistencies (FIXED)
-- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content, Mission 1_4 total quantity was already populated, user could proceed without clicking through dialogue, dialogue was repeating, Mission 1_2 dialogue didn't flow properly
-- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched, Mission 1_4 was passive display instead of interactive learning, no overlay blocked interaction during dialogue, local state for tracking dialogue shown was being reset, Mission 1_2 dialogue had logical gaps
+- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content, Mission 1_4 total quantity was already populated, user could proceed without clicking through dialogue, dialogue was repeating, Mission 1_2 dialogue didn't flow properly, Mission 1_5 was not meaningful (only adding description)
+- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched, Mission 1_4 was passive display instead of interactive learning, no overlay blocked interaction during dialogue, local state for tracking dialogue shown was being reset, Mission 1_2 dialogue had logical gaps, Mission 1_5 only allowed adding description without modifying assembly
 - **Fix**: 
   1. Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade
   2. Updated dialogue for Mission 1_4 to be more appropriate for learning about quantity rollup
@@ -44,6 +44,7 @@ March 17, 2026
   4. Added semi-transparent overlay to block interaction with mission content while dialogue is active (dialogue remains interactive)
   5. Moved dialogue shown tracking from local state to store to prevent repetition issues
   6. Improved Mission 1_2 dialogue flow to make conversation more natural
+  7. Made Mission 1_5 more meaningful - player can now modify assembly specifications (length, material)
 
 ### Issue: E2E Tests Not Running
 - Playwright has Chromium/X11 issues in this environment
@@ -74,12 +75,13 @@ March 17, 2026
 - `src/pages/Mission.tsx` - Added DialogueBox and overlay to block interaction during dialogue
 - `src/pages/Act1/Mission1_1.tsx` - Removed duplicate dialogue setting effect
 - `src/pages/Act1/Mission1_4.tsx` - Made quantity rollup calculation interactive
+- `src/pages/Act1/Mission1_5.tsx` - Made revision creation more meaningful with spec changes
 - `src/hooks/useMission.ts` - Fixed storyProgress selector and moved dialogueShown to store
 - `src/components/story/DialogueBox.tsx` - Restructured to fix React hooks order issue
 - `src/store/gameStore.ts` - Added dialogueShownForCurrentMission flag
 - `src/utils/types.ts` - Added dialogueShownForCurrentMission to StoryProgress
 - `src/data/parts.ts` - Added Rotor Hub and Blade Attachment parts
-- `src/data/story.ts` - Updated Mission 1_4 dialogue
+- `src/data/story.ts` - Updated Mission 1_2 and 1_4 dialogue
 
 ## To Test
 ```bash
