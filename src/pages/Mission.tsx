@@ -46,7 +46,7 @@ export default function Mission() {
   }
 
   return (
-    <div className="min-h-screen bg-ds-bg relative">
+    <div className="min-h-screen bg-ds-bg">
       <div className="bg-white border-b border-ds-border px-4 py-2 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <span className="font-medium">Act {mission?.act}: {mission?.title}</span>
@@ -62,10 +62,14 @@ export default function Mission() {
         <DialogueBox />
         <AchievementToast />
       </div>
-      {hasActiveDialogue && (
-        <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
-      )}
-      <Outlet />
+      <div className="max-w-4xl mx-auto px-4">
+        <div className={`relative ${hasActiveDialogue ? 'pointer-events-none opacity-50' : ''}`}>
+          {hasActiveDialogue && (
+            <div className="absolute inset-0 bg-black bg-opacity-30 z-10"></div>
+          )}
+          <Outlet />
+        </div>
+      </div>
     </div>
   )
 }
