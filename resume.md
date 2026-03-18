@@ -41,7 +41,7 @@ March 17, 2026
   1. Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade
   2. Updated dialogue for Mission 1_4 to be more appropriate for learning about quantity rollup
   3. Made Mission 1_4 interactive - player must calculate and enter the total quantity rollup
-  4. Added semi-transparent overlay to block interaction while dialogue is active
+  4. Added semi-transparent overlay to block interaction with mission content while dialogue is active (dialogue remains interactive)
 
 ### Issue: E2E Tests Not Running
 - Playwright has Chromium/X11 issues in this environment
