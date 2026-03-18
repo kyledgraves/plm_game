@@ -159,7 +159,7 @@ export const DIALOGUE: Record<string, DialogueEntry[]> = {
   devon_specs: [
     { characterId: 'devon', text: "Hey, I sent you specs yesterday. Did you get them?" },
     { characterId: 'margaret', text: "Yes, I saw them. But they need to be linked to the part in the system." },
-    { characterId: 'devon', text: "I don't have time for this computer nonsense. Just tell me what fields to fill out." },
+    { characterId: 'devon', text: "I don't have time for this computer nonsense. Paper has always worked in the past." },
     { characterId: 'alex', text: "*whispers* Good luck. He's been like this since the '90s." },
     { characterId: 'margaret', text: "Devon, please use the system. It's there to help everyone." },
     { characterId: 'devon', text: "Fine, fine. Just... make it quick." }
