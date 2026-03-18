@@ -19,7 +19,7 @@ describe('gameStore', () => {
       changeOrders: [],
       configurations: { engine: '', color: '', avionics: '' },
       configurationRules: [],
-      storyProgress: { currentDialogue: null, dialogueIndex: 0, seenDialogues: [], currentAchievement: null },
+      storyProgress: { currentDialogue: null, dialogueIndex: 0, seenDialogues: [], currentAchievement: null, dialogueShownForCurrentMission: false },
       unlockedAchievements: [],
       showAchievement: null
     })
@@ -333,7 +333,7 @@ describe('gameStore', () => {
 
     it('should advance dialogue', () => {
       useGameStore.setState({ 
-        storyProgress: { currentDialogue: 'margaret_intro', dialogueIndex: 0, seenDialogues: [], currentAchievement: null }
+        storyProgress: { currentDialogue: 'margaret_intro', dialogueIndex: 0, seenDialogues: [], currentAchievement: null, dialogueShownForCurrentMission: false }
       })
       const { result } = renderHook(() => useGameStore())
       
@@ -346,7 +346,7 @@ describe('gameStore', () => {
 
     it('should clear dialogue', () => {
       useGameStore.setState({ 
-        storyProgress: { currentDialogue: 'margaret_intro', dialogueIndex: 2, seenDialogues: [], currentAchievement: null }
+        storyProgress: { currentDialogue: 'margaret_intro', dialogueIndex: 2, seenDialogues: [], currentAchievement: null, dialogueShownForCurrentMission: false }
       })
       const { result } = renderHook(() => useGameStore())
       

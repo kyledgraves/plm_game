@@ -55,6 +55,7 @@ export interface StoryProgress {
   dialogueIndex: number
   seenDialogues: string[]
   currentAchievement: string | null
+  dialogueShownForCurrentMission: boolean
 }
 
 export interface Character {

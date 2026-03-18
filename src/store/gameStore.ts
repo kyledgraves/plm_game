@@ -73,6 +73,7 @@ interface GameState {
   setCurrentDialogue: (dialogueKey: string) => void
   advanceDialogue: () => void
   clearDialogue: () => void
+  setDialogueShownForCurrentMission: (shown: boolean) => void
   unlockAchievement: (achievementId: string) => void
   clearShowAchievement: () => void
   resetProgress: () => void
@@ -95,7 +96,7 @@ const initialState = {
   changeOrders: [] as ChangeOrder[],
   configurations: { engine: '', color: '', avionics: '' } as HelicopterConfiguration,
   configurationRules: [] as Array<{ id: string; name: string; condition: string; valid: boolean }>,
-  storyProgress: { currentDialogue: null, dialogueIndex: 0, seenDialogues: [], currentAchievement: null } as StoryProgress,
+  storyProgress: { currentDialogue: null, dialogueIndex: 0, seenDialogues: [], currentAchievement: null, dialogueShownForCurrentMission: false } as StoryProgress,
   unlockedAchievements: [] as string[],
   showAchievement: null as string | null,
 }
@@ -239,7 +240,15 @@ export const useGameStore = create<GameState>()(
         storyProgress: {
           ...state.storyProgress,
           currentDialogue: null,
-          dialogueIndex: 0
+          dialogueIndex: 0,
+          dialogueShownForCurrentMission: true
+        }
+      })),
+      
+      setDialogueShownForCurrentMission: (shown) => set((state) => ({
+        storyProgress: {
+          ...state.storyProgress,
+          dialogueShownForCurrentMission: shown
         }
       })),
       

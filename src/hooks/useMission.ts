@@ -26,20 +26,23 @@ interface UseMissionReturn {
 
 export function useMission({ missionId, nextMissionId, score: baseScore = 100, badge, dialogue, achievement }: UseMissionOptions): UseMissionReturn {
   const navigate = useNavigate()
-  const { addScore, completeMission, earnBadge, createPart: storeCreatePart, setCurrentDialogue, unlockAchievement } = useGameStore()
+  const { addScore, completeMission, earnBadge, createPart: storeCreatePart, setCurrentDialogue, unlockAchievement, setDialogueShownForCurrentMission } = useGameStore()
   const storyProgress = useGameStore(state => state.storyProgress)
   const [isComplete, setIsComplete] = useState(false)
   const [score, setScore] = useState(0)
   const [objectives, setObjectives] = useState<Record<string, boolean>>({})
-  const [dialogueShown, setDialogueShown] = useState(false)
 
   // Show dialogue when mission loads (only once)
   useEffect(() => {
-    if (dialogue && !storyProgress.currentDialogue && !dialogueShown) {
+    // Only set dialogue if:
+    // 1. dialogue is provided
+    // 2. currentDialogue is null (no dialogue is currently showing)
+    // 3. dialogue has not been shown for this mission visit yet
+    if (dialogue && !storyProgress.currentDialogue && !storyProgress.dialogueShownForCurrentMission) {
       setCurrentDialogue(dialogue)
-      setDialogueShown(true)
+      setDialogueShownForCurrentMission(true)
     }
-  }, [dialogue, storyProgress.currentDialogue, setCurrentDialogue, dialogueShown])
+  }, [dialogue, storyProgress.currentDialogue, storyProgress.dialogueShownForCurrentMission, setCurrentDialogue, setDialogueShownForCurrentMission])
 
   const validatePartNumber = (pn: string) => /^HT-\d{5}$/.test(pn)
 
