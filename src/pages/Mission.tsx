@@ -7,7 +7,7 @@ import AchievementToast from '../components/story/AchievementToast'
 
 export default function Mission() {
   const location = useLocation()
-  const { currentAct, currentMission, setCurrentMission, totalScore, storyProgress } = useGameStore()
+  const { currentAct, currentMission, setCurrentMission, totalScore, storyProgress, setDialogueShownForCurrentMission } = useGameStore()
   const [timeLeft, setTimeLeft] = useState(0)
 
   // Get mission ID from URL path
@@ -23,8 +23,10 @@ export default function Mission() {
       const missionNum = parseInt(missionId.split('_')[1])
       setCurrentMission(act, missionNum)
       setTimeLeft(mission.timeLimit)
+      // Reset dialogue shown flag when mission changes
+      setDialogueShownForCurrentMission(false)
     }
-  }, [missionId])
+  }, [missionId, setDialogueShownForCurrentMission])
 
   useEffect(() => {
     if (timeLeft <= 0) return
