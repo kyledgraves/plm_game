@@ -35,11 +35,12 @@ March 17, 2026
   4. Added dialogueShown state to prevent dialogue from restarting after completion
 
 ### Issue: Act 1 Mission Flow Inconsistencies (FIXED)
-- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content
-- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched
+- **Symptom**: Mission 1_3 had inappropriate child parts for Main Rotor Blade, Mission 1_4 dialogue didn't match mission content, Mission 1_4 total quantity was already populated
+- **Cause**: Initial parts data didn't include appropriate child parts for rotor blade, dialogue was mismatched, Mission 1_4 was passive display instead of interactive learning
 - **Fix**: 
   1. Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade
   2. Updated dialogue for Mission 1_4 to be more appropriate for learning about quantity rollup
+  3. Made Mission 1_4 interactive - player must calculate and enter the total quantity rollup
 
 ### Issue: E2E Tests Not Running
 - Playwright has Chromium/X11 issues in this environment
@@ -57,7 +58,8 @@ March 17, 2026
 2. **Act 1 Mission Flow Issues**
     - **Inappropriate child parts**: Added Rotor Hub and Blade Attachment as appropriate child parts for Main Rotor Blade in Mission 1_3
     - **Mismatched dialogue**: Updated dialogue for Mission 1_4 (quantity_rollup) to be more appropriate for learning about quantity rollup
-    - This ensures missions make logical sense in the flow
+    - **Passive display**: Made Mission 1_4 interactive - player must calculate and enter the total quantity rollup instead of just viewing it
+    - This ensures missions make logical sense in the flow and provide interactive learning
 
 3. **E2E test setup** (Still needs work)
    - Install proper Playwright browsers
@@ -67,6 +69,7 @@ March 17, 2026
 - `src/App.tsx` - Route restructuring
 - `src/pages/Mission.tsx` - Added DialogueBox
 - `src/pages/Act1/Mission1_1.tsx` - Removed duplicate dialogue setting effect
+- `src/pages/Act1/Mission1_4.tsx` - Made quantity rollup calculation interactive
 - `src/hooks/useMission.ts` - Fixed storyProgress selector and added dialogueShown state
 - `src/components/story/DialogueBox.tsx` - Restructured to fix React hooks order issue
 - `src/store/gameStore.ts` - Story state
