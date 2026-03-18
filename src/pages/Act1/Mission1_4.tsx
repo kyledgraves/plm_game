@@ -16,11 +16,17 @@ export default function Mission1_4() {
   
   const children = mainPart?.children || []
   
-  const totalQuantity = children.reduce((sum, child) => sum + child.quantity, 0)
+  const expectedTotal = children.reduce((sum, child) => sum + child.quantity, 0)
+  const [userTotal, setUserTotal] = useState('')
+  const [error, setError] = useState('')
 
   const handleSubmit = () => {
-    setObjectives({ quantityRollup: true })
-    handleComplete()
+    if (parseInt(userTotal) === expectedTotal) {
+      setObjectives({ quantityRollup: true })
+      handleComplete()
+    } else {
+      setError(`Incorrect. Expected total: ${expectedTotal}. Try again!`)
+    }
   }
 
   return (
@@ -56,14 +62,36 @@ export default function Mission1_4() {
           </div>
         )}
 
-        <div className="p-4 bg-green-50 rounded-lg mb-6">
-          <div className="text-sm text-green-700 mb-1">Total Quantity Rollup:</div>
-          <div className="text-3xl font-bold text-green-700">{totalQuantity}</div>
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Enter the total quantity rollup:
+          </label>
+          <input
+            type="number"
+            min="0"
+            value={userTotal}
+            onChange={(e) => {
+              setUserTotal(e.target.value)
+              setError('')
+            }}
+            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              error ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Enter total quantity"
+          />
+          {error && (
+            <p className="text-red-500 text-sm mt-1">{error}</p>
+          )}
         </div>
 
         <button
           onClick={handleSubmit}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors font-medium"
+          disabled={!userTotal}
+          className={`w-full py-2 px-4 rounded-md font-medium transition-colors ${
+            userTotal
+              ? 'bg-blue-600 text-white hover:bg-blue-700'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+          }`}
         >
           Continue
         </button>
